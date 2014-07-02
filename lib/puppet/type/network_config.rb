@@ -19,7 +19,7 @@ Puppet::Type.newtype(:network_config) do
   ensurable
 
   newparam(:name) do
-    isnamevar
+    isrequired
     desc "The name of the physical or logical network device"
   end
 
