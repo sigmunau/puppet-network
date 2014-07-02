@@ -49,7 +49,7 @@ Puppet::Type.type(:network_config).provide(:interfaces) do
 
     # These fields are going to get rearranged to resolve issue 16
     # https://github.com/adrienthebo/puppet-network/issues/16
-    attr_accessor :ipaddress, :netmask, :family, :method, :mtu
+    attr_accessor :ipaddress, :netmask, :family, :method, :mtu, :interface
 
     # Options hash
     attr_reader :options
@@ -63,6 +63,7 @@ Puppet::Type.type(:network_config).provide(:interfaces) do
     def to_hash
       h = {
         :name      => @name,
+        :interface => @interface,
         :onboot    => @onboot,
         :hotplug   => @hotplug,
         :ipaddress => @ipaddress,
@@ -266,7 +267,7 @@ Puppet::Type.type(:network_config).provide(:interfaces) do
       raise Puppet::Error, "#{provider.name} does not have a family." if provider.family.nil?
 
       stanza = []
-      stanza << %{iface #{provider.name} #{provider.family} #{provider.method}}
+      stanza << %{iface #{provider.interface} #{provider.family} #{provider.method}}
 
       [
         [:ipaddress, 'address'],
